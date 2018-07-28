@@ -34,10 +34,12 @@ def send(data):
     req.add_header('Content-Type', 'application/json')
     urllib2.urlopen(req, json.dumps(data))
 
+print("Sending to ", os.getenv('TEMP_HOST'))
+
 while True:
     data = {
         "value": read_temp(),
-        "time": datetime.datetime.now()
+        "time": str(datetime.datetime.now())
     }
     print(data)
     send(data)
