@@ -45,6 +45,8 @@ def send(data):
 
 therm = Thermometer()
 
+sleepTime = int(os.getenv("FREQ"))
+
 while True:
     data = {
         "measurement": "temp",
@@ -55,4 +57,4 @@ while True:
         }]
     }
     send(data)
-    time.sleep(10)
+    time.sleep(sleepTime)
