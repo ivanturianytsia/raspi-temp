@@ -36,8 +36,8 @@ def send(data):
 
 while True:
     data = {
-        value: read_temp(),
-        time: datetime.datetime.now()
+        "value": read_temp(),
+        "time": datetime.datetime.now()
     }
     print(data)
     send(data)
