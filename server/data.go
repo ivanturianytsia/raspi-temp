@@ -11,30 +11,38 @@ type Value struct {
 }
 
 type DataPoint struct {
-	Data        Value  `json:"data"`
-	Unit        string `json:"unit"`
-	Measurement string `json:"measurement"`
+	Data        []Value `json:"data"`
+	Unit        string  `json:"unit"`
+	Measurement string  `json:"measurement"`
 }
 
 type DataStore struct {
-	data []DataPoint
+	data DataPoint
 	lock *sync.Mutex
 }
 
 func NewDataStore() DataStore {
 	return DataStore{
-		data: []DataPoint{},
+		data: DataPoint{},
 		lock: &sync.Mutex{},
 	}
 }
 
 func (store *DataStore) Set(point DataPoint) error {
 	store.lock.Lock()
-	store.data = append(store.data, point)
+	if store.data.Measurement != point.Measurement {
+		store.data.Measurement = point.Measurement
+		store.data.Data = []Value{}
+	}
+	if store.data.Unit != point.Unit {
+		store.data.Unit = point.Unit
+		store.data.Data = []Value{}
+	}
+	store.data.Data = append(store.data.Data, point.Data...)
 	store.lock.Unlock()
 	return nil
 }
 
-func (store *DataStore) Get() []DataPoint {
+func (store *DataStore) Get() DataPoint {
 	return store.data
 }

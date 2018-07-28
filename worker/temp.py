@@ -49,10 +49,10 @@ while True:
     data = {
         "measurement": "temp",
         "unit": "°C",
-        "data": {
+        "data": [{
             "value": therm.read_temp(),
             "datetime": rfc3339.rfc3339(datetime.datetime.now())
-        }
+        }]
     }
     send(data)
     time.sleep(10)
