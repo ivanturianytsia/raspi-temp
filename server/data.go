@@ -5,30 +5,36 @@ import (
 	"time"
 )
 
+type Value struct {
+	Value    float32   `json:"value"`
+	DateTime time.Time `json:"datetime"`
+}
+
 type DataPoint struct {
-	Value float32   `json:"value"`
-	Time  time.Time `json:"time"`
+	Data        Value  `json:"data"`
+	Unit        string `json:"unit"`
+	Measurement string `json:"measurement"`
 }
 
 type DataStore struct {
-	data DataPoint
+	data []DataPoint
 	lock *sync.Mutex
 }
 
 func NewDataStore() DataStore {
 	return DataStore{
-		data: DataPoint{},
+		data: []DataPoint{},
 		lock: &sync.Mutex{},
 	}
 }
 
 func (store *DataStore) Set(point DataPoint) error {
 	store.lock.Lock()
-	store.data = point
+	store.data = append(store.data, point)
 	store.lock.Unlock()
 	return nil
 }
 
-func (store *DataStore) Get() DataPoint {
+func (store *DataStore) Get() []DataPoint {
 	return store.data
 }

@@ -40,7 +40,6 @@ def send(data):
     req.add_header('Content-Length', len(jsondataasbytes))
     try:
         response = urllib.request.urlopen(req, jsondataasbytes)
-        print(response)
     except urllib2.HTTPError as err:
         print(err)
 
@@ -48,8 +47,12 @@ therm = Thermometer()
 
 while True:
     data = {
-        "value": therm.read_temp(),
-        "time": rfc3339.rfc3339(datetime.datetime.now())
+        "measurement": "temp",
+        "unit": "°C",
+        "data": {
+            "value": therm.read_temp(),
+            "datetime": rfc3339.rfc3339(datetime.datetime.now())
+        }
     }
     send(data)
     time.sleep(10)
