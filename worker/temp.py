@@ -2,6 +2,8 @@ import os
 import glob
 import time
 import datetime
+import json
+import urllib2
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -27,6 +29,16 @@ def read_temp():
         temp = float(temp_string) / 1000.0
         return temp
 
+def send(data):
+    req = urllib2.Request(os.getenv('TEMP_HOST') + '/temp')
+    req.add_header('Content-Type', 'application/json')
+    urllib2.urlopen(req, json.dumps(data))
+
 while True:
-    print(read_temp(), datetime.datetime.now())
-    time.sleep(1)
+    data = {
+        value: read_temp(),
+        time: datetime.datetime.now()
+    }
+    print(data)
+    send(data)
+    time.sleep(10)
