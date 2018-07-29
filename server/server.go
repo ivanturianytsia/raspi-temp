@@ -23,8 +23,9 @@ func NewServer() (*Server, error) {
 }
 
 func (server *Server) Route(router *mux.Router) {
-	router.Methods("POST").Path("/temp").HandlerFunc(server.handlePostTemp)
-	router.Methods("GET").Path("/temp").HandlerFunc(server.handleGetTemp)
+	router.Methods("POST").Path("/api/temp").HandlerFunc(server.handlePostTemp)
+	router.Methods("GET").Path("/api/temp").HandlerFunc(server.handleGetTemp)
+	router.Methods("GET").Handler(http.FileServer(http.Dir("./dist")))
 }
 
 func (server *Server) handlePostTemp(w http.ResponseWriter, r *http.Request) {

@@ -6,9 +6,12 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
+
 	router := mux.NewRouter()
 	server, err := NewServer()
 	if err != nil {

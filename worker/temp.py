@@ -33,7 +33,7 @@ class Thermometer:
             return temp
 
 def send(data):
-    req = urllib.request.Request(os.getenv('TEMP_HOST') + '/temp')
+    req = urllib.request.Request(os.getenv('TEMP_HOST') + '/api/temp')
     req.add_header('Content-Type', 'application/json; charset=utf-8')
     jsondata = json.dumps(data)
     jsondataasbytes = jsondata.encode('utf-8')

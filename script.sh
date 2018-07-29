@@ -7,6 +7,7 @@ function container_run {
     -p 3000:3000 \
     -d \
     --rm \
+    -u root:root \
     ivanturianytsia/raspi-temp
 }
 
