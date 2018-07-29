@@ -1,10 +1,12 @@
 function container_run {
   docker container run \
-    --rm \
     --env PORT=3000 \
+    --env DATA_PATH=/data \
+    -v temp:/data \
     --name temp \
     -p 3000:3000 \
     -d \
+    --rm \
     ivanturianytsia/raspi-temp
 }
 

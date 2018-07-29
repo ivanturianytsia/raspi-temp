@@ -21,7 +21,7 @@ RUN apk --update upgrade && \
     rm -rf /var/cache/apk/*
 COPY --from=server /etc/passwd /etc/group /etc/
 COPY --from=server /server /
-RUN mkdir /data
 USER http:http
+RUN mkdir /data
 EXPOSE 3000
 ENTRYPOINT /server
