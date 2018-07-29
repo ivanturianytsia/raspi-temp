@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="page page--dashboard">
-    <div class="container dashboard">
-      <div class="dashboard__latest">
+    <div class="container widget">
+      <div class="widget__latest">
         {{ latest }}{{ point.unit }}
       </div>
-      <div class="dashboard__average">
+      <div class="widget__average">
         Average: {{ avg }}{{ point.unit }}
       </div>
     </div>
@@ -56,13 +56,14 @@ export default {
 @import '../assets/scss/main.scss';
 
 .page {
+  height: auto;
+  min-height: 100vh;
+
   &--dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 1rem;
   }
 }
-.dashboard {
+.widget {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,11 +80,11 @@ export default {
     font-size: 5em;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 520px) {
     font-size: 0.7rem;
     width: 100%;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    // margin-left: 1rem;
+    // margin-right: 1rem;
   }
 }
 </style>
