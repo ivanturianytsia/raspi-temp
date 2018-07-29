@@ -1,0 +1,12 @@
+.page {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: $color-grey-light;
+}
+
+.container {
+  position: relative;
+  margin: auto;
+  width: $width;
+}

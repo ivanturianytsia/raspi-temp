@@ -1,5 +1,14 @@
 <template lang="html">
-  <div>{{ latest }}{{ point.unit }} (avg. {{ avg }}{{ point.unit }})</div>
+  <div class="page page--dashboard">
+    <div class="container dashboard">
+      <div class="dashboard__latest">
+        {{ latest }}{{ point.unit }}
+      </div>
+      <div class="dashboard__average">
+        Average: {{ avg }}{{ point.unit }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -44,4 +53,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/scss/main.scss';
+
+.page {
+  &--dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 3rem 0;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  font-size: 1rem;
+
+  &__latest {
+    font-size: 13em;
+  }
+  &__average {
+    font-size: 5em;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 0.7rem;
+    width: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
 </style>
