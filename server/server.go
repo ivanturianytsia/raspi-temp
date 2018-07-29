@@ -3,18 +3,23 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 )
 
 type Server struct {
-	store DataStore
+	store *DataStore
 }
 
-func NewServer() *Server {
-	return &Server{
-		store: NewDataStore(),
+func NewServer() (*Server, error) {
+	store, err := NewDataStore()
+	if err != nil {
+		return nil, err
 	}
+	return &Server{
+		store: store,
+	}, nil
 }
 
 func (server *Server) Route(router *mux.Router) {
@@ -31,7 +36,11 @@ func (server *Server) handlePostTemp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	server.store.Set(point)
+	if err := server.store.Save(point); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
 
 	if err := json.NewEncoder(w).Encode(&point); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -40,7 +49,12 @@ func (server *Server) handlePostTemp(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) handleGetTemp(w http.ResponseWriter, r *http.Request) {
-	point := server.store.Get()
+	point, err := server.store.Get(time.Now())
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
 
 	if err := json.NewEncoder(w).Encode(&point); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
