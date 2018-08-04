@@ -1,12 +1,17 @@
 <template lang="html">
   <div class="page page--dashboard">
     <div class="container widget">
-      <div class="widget__latest">
-        {{ latest }}{{ point.unit }}
+      <div class="widget__value widget__value--primary">
+        {{ latest.value }}{{ point.unit }}
       </div>
-      <div class="widget__average">
-        Average: {{ avg }}{{ point.unit }}
+      <div class="widget__title">
+        {{ latest.datetime }}
       </div>
+    </div>
+
+    <div class="container widget">
+      <div class="widget__value">{{ avg }}{{ point.unit }}</div>
+      <div class="widget__title">Average today</div>
     </div>
 
     <div class="container widget">
@@ -17,6 +22,7 @@
 
 <script>
 import ChartBox from './ChartBox'
+import moment from 'moment'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -51,7 +57,10 @@ export default {
           result = { ...item }
         }
       })
-      return (result.value).toFixed(1)
+      return {
+        value: result.value.toFixed(1),
+        datetime: moment(result.datetime).fromNow()
+      }
     }
   },
   components: {
@@ -88,11 +97,15 @@ export default {
   border-radius: 2rem;
   font-size: 1rem;
 
-  &__latest {
-    font-size: 13em;
+  &__title {
+    font-size: 4em;
+    color: $color-primary-dark;
   }
-  &__average {
-    font-size: 5em;
+
+  &__value {
+    font-size: 10em;
+
+    &--primary {}
   }
 
   @media (max-width: 520px) {

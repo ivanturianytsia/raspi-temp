@@ -23,18 +23,14 @@ export default {
   methods: {
     createChart () {
       const data = this.points
-      console.log(data)
-      if (!data) return
+      if (!data || !data.length) return
 
       const colors = ['#6865eb', '#fe2769', '#c3ac42', '#ef7e70', '#62b088', '#325252']
       const labelColor = '#ccc'
+      console.log(data)
 
       this.chart = Highcharts.chart('chart', {
-        plotOptions: {
-          areaspline: {
-            threshold: null
-          }
-        },
+        plotOptions: { areaspline: { threshold: null } },
         title: { text: '' },
         chart: {
           type: 'areaspline',
@@ -68,6 +64,7 @@ export default {
         tooltip: { shared: true },
         legend: { enabled: false },
         series: data.map((item, index) => ({
+          name: item.measurement,
           data: item.data.map(item => Math.round(item.value * 10) / 10),
           color: colors[index % colors.length],
           tooltip: { valueSuffix: item.unit },
