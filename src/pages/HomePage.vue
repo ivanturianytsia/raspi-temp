@@ -8,10 +8,15 @@
         Average: {{ avg }}{{ point.unit }}
       </div>
     </div>
+
+    <div class="container widget">
+      <chart-box :points="points"></chart-box>
+    </div>
   </div>
 </template>
 
 <script>
+import ChartBox from './ChartBox'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -48,6 +53,9 @@ export default {
       })
       return (result.value).toFixed(1)
     }
+  },
+  components: {
+    ChartBox
   }
 }
 </script>
@@ -59,11 +67,18 @@ export default {
   height: auto;
   min-height: 100vh;
 
+  & > * {
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
   &--dashboard {
     padding: 1rem;
   }
 }
 .widget {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

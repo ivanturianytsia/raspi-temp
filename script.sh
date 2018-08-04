@@ -1,4 +1,6 @@
 function container_run {
+  docker pull ivanturianytsia/raspi-temp:latest
+
   docker container run \
     --env PORT=3000 \
     --env DATA_PATH=/data \
