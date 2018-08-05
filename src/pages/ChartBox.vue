@@ -1,7 +1,5 @@
 <template lang="html">
-  <div class="chart">
-    <div id="chart"></div>
-  </div>
+  <div id="chart"></div>
 </template>
 
 <script>
@@ -27,7 +25,6 @@ export default {
 
       const colors = ['#6865eb', '#fe2769', '#c3ac42', '#ef7e70', '#62b088', '#325252']
       const labelColor = '#ccc'
-      console.log(data)
 
       this.chart = Highcharts.chart('chart', {
         plotOptions: { areaspline: { threshold: null } },
@@ -35,7 +32,7 @@ export default {
         chart: {
           type: 'areaspline',
           zoomType: 'xy',
-          height: 300,
+          height: null,
           // backgroundColor: '#181a23',
           // plotBackgroundColor: '#181a23',
           spacingBottom: 15,
@@ -87,8 +84,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.chart {
+#chart {
   position: relative;
+  height: 100%;
   width: 100%;
 }
 </style>

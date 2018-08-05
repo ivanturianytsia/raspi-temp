@@ -1,21 +1,23 @@
 <template lang="html">
   <div class="page page--dashboard">
-    <div class="container widget">
-      <div class="widget__value widget__value--primary">
-        {{ latest.value }}{{ point.unit }}
+    <div class="container">
+      <div class="widget widget--latest">
+        <div class="widget__value widget__value--primary">
+          {{ latest.value }}{{ point.unit }}
+        </div>
+        <div class="widget__title">
+          {{ latest.datetime }}
+        </div>
       </div>
-      <div class="widget__title">
-        {{ latest.datetime }}
+
+      <div class="widget widget--average">
+        <div class="widget__value">{{ avg }}{{ point.unit }}</div>
+        <div class="widget__title">Average today</div>
       </div>
-    </div>
 
-    <div class="container widget">
-      <div class="widget__value">{{ avg }}{{ point.unit }}</div>
-      <div class="widget__title">Average today</div>
-    </div>
-
-    <div class="container widget">
-      <chart-box :points="points"></chart-box>
+      <div class="widget widget--chart">
+        <chart-box :points="points"></chart-box>
+      </div>
     </div>
   </div>
 </template>
@@ -74,16 +76,26 @@ export default {
 
 .page {
   height: auto;
-  min-height: 100vh;
+}
+.container {
+  width: 100rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  grid-template-areas: "latest average"
+                       "chart  chart";
 
-  & > * {
-    &:not(:last-child) {
-      margin-bottom: 1rem;
-    }
+  @media only screen and (max-width: 1000px) {
+    width: 50rem;
+    grid-template-columns: 1fr;
+    grid-template-areas: "latest"
+                         "average"
+                         "chart";
   }
 
-  &--dashboard {
-    padding: 1rem;
+  @media only screen and (max-width: 520px) {
+    width: 100%;
   }
 }
 .widget {
@@ -91,11 +103,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #fff;
   padding: 3rem 0;
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
   font-size: 1rem;
+  width: 100%;
 
   &__title {
     font-size: 4em;
@@ -108,11 +122,34 @@ export default {
     &--primary {}
   }
 
-  @media (max-width: 520px) {
+  &--latest,
+  &--average {
+    height: 25rem;
+
+    @media only screen and (max-width: 520px) {
+      height: 20rem;
+    }
+  }
+
+  &--latest {
+    grid-area: latest;
+  }
+
+  &--average {
+    grid-area: average;
+  }
+
+  &--chart {
+    grid-area: chart;
+    height: 40rem;
+
+    @media only screen and (max-width: 520px) {
+      height: 30rem;
+    }
+  }
+
+  @media only screen and (max-width: 520px) {
     font-size: 0.7rem;
-    width: 100%;
-    // margin-left: 1rem;
-    // margin-right: 1rem;
   }
 }
 </style>
