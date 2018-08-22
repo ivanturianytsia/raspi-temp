@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  proxy:
+    image: traefik # The official Traefik docker image
+    command: --api --docker # Enables the web UI and tells Træfik to listen to docker
+    environment:
+      - CLOUDFLARE_EMAIL
+      - CLOUDFLARE_API_KEY
+    ports:
+      - "80:80"     # The HTTP port
+      - "443:443"   # The HTTPS port
+      - "8080:8080" # The Web UI (enabled by --api)
+    # configs:
+    #   - source: traefik.toml
+    #     target: /etc/traefik/traefik.toml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - acme:/etc/traefik/acme
+    networks:
+      - backend
+  app:
+    image: ivanturianytsia/raspi-temp:latest # A container that exposes an API to show its IP address
+    environment:
+      - PORT=3000
+      - DATA_PATH=/data
+    labels:
+      - "traefik.frontend.rule=Host:temp.turianytsia.com"
+      - "traefik.port=3000"
+    volumes:
+      - temp:/data
+    networks:
+      - backend
+
+# configs:
+#   traefik.toml:
+#     file: ./traefik.toml
+
+volumes:
+  acme:
+  temp:
+    external: true
+
+networks:
+  backend:

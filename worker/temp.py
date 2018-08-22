@@ -40,7 +40,7 @@ def send(data):
     req.add_header('Content-Length', len(jsondataasbytes))
     try:
         response = urllib.request.urlopen(req, jsondataasbytes)
-    except urllib2.HTTPError as err:
+    except urllib.HTTPError as err:
         print(err)
 
 therm = Thermometer()
